@@ -3,8 +3,6 @@
 set -e
 set -o pipefail
 
-source "$(dirname "$0")/util.sh"
-
 if [[ "${ASDF_INSTALL_TYPE}" != "version" ]]; then
     echo "NYI: Installing specific ref from source is not currently implemented."
     exit 1
