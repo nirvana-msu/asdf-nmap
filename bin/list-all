@@ -3,4 +3,4 @@
 set -e
 set -o pipefail
 
-curl -sS "https://nmap.org/dist/?C=M&O=D" | grep -oP "[^-]*(?=\.tar\.bz2\">)" | tr '\n' ' '
+curl -sS "https://nmap.org/dist/?C=M&O=A" | grep -oP "[^-]*(?=\.tar\.bz2\">)" | tr '\n' ' '
