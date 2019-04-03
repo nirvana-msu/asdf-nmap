@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+source "$(dirname "$0")/util.sh"
+
+if [[ "${ASDF_INSTALL_TYPE}" != "version" ]]; then
+    echo "NYI: Installing specific ref from source is not currently implemented."
+    exit 1
+fi
+
+filename=$(curl -sS "https://nmap.org/dist/" | grep -oP "[^\"]*${ASDF_INSTALL_VERSION}\.tar\.bz2(?=\">)")
+download_url="https://nmap.org/dist/${filename}"
+
+cd ${ASDF_INSTALL_PATH}
+curl -sSL -o ${filename} ${download_url}
+bzip2 -cd ${filename} | tar xvf -
+rm -f ${filename}
+cd nmap-${ASDF_INSTALL_VERSION}
+
+./configure --prefix=${ASDF_INSTALL_PATH} --without-zenmap
+make
+make install
+
+cd ..
+rm -rf nmap-${ASDF_INSTALL_VERSION}
